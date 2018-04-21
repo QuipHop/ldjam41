@@ -19,9 +19,9 @@ class Game extends Phaser.Game {
 
     // Setup the game's stage.
     super({
-      width: window.innerWidth * dpr,
-      height: window.innerHeight * dpr,
-      renderer: Phaser.WEBGL_MULTI,
+      width:1024,
+      height: 758,
+      renderer: Phaser.CANVAS,
       antialias: true,
       multiTexture: true,
       enableDebug: process.env.NODE_ENV === 'development',

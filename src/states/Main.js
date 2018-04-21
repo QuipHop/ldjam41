@@ -27,7 +27,7 @@ export default class Main extends Phaser.State {
     // ...
 
     // Setup listener for window resize.
-    window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
+    // window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
   }
 
   /**
