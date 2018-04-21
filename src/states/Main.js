@@ -1,6 +1,7 @@
 import throttle from 'lodash.throttle';
 import Player from '../objects/Player';
 import ActionsModal from '../objects/ActionsModal';
+import DealsModal from '../objects/DealsModal';
 import { STYLES } from '../objects/Styles';
 // import { ListView } from 'phaser-list-view';
 
@@ -8,6 +9,9 @@ export default class Main extends Phaser.State {
 
   create() {
     this.player = Player;
+    this.templesCounter = 1;
+    this.templesGroup = this.game.add.group();
+    this.generateTempleIcon();
     this.initBg();
     this.initUi();
   }
@@ -38,14 +42,42 @@ export default class Main extends Phaser.State {
     this.actionBtn.anchor.setTo(0, 0.5);
     this.actionBtn.inputEnabled = true;
     this.actionBtn.events.onInputDown.add(() => this.openActionsDialog());
+
+    this.preachBtn = this.game.add.image(this.game.world.centerX, this.game.world.height - 100, 'btn_preach');
+    this.preachBtn.anchor.setTo(0.5);
+    this.preachBtn.inputEnabled = true;
+    this.preachBtn.events.onInputDown.add(() => this.player.preach());
+
+    this.dealsBtn = this.game.add.image(this.game.world.width - 50, this.game.world.height - 100, 'btn_deals');
+    this.dealsBtn.anchor.setTo(1, 0.5);
+    this.dealsBtn.inputEnabled = true;
+    this.dealsBtn.events.onInputDown.add(() => this.openDealsDialog());
+
     this.player.bindLabels(this.believersCounter, this.moneyCounter);
+    this.increaseHandler = this.player.onIncrease.add(() => {
+      this.checkTemples();
+    });
+  }
+
+  checkTemples() {
+    if (this.player.believers / this.templesCounter > 100) {
+      this.generateTempleIcon();
+    }
+  };
+
+  generateTempleIcon() {
+    this.templesGroup.create(
+      this.game.rnd.integerInRange(200, this.game.world.width - 200),
+      this.game.rnd.integerInRange(200,  this.game.world.height - 200),
+      'temple'
+    );
   }
 
   openActionsDialog() {
-    console.log('here');
-    const wasteContainer = new ActionsModal(this.game);
-    // wasteContainer.onDestroy.add(() => {
-    //     wasteContainer.destroy();
-    // })
+    const actionsDialog = new ActionsModal(this.game);
+  }
+
+  openDealsDialog() {
+    const dealsDialog = new DealsModal(this.game);
   }
 }

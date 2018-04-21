@@ -6,11 +6,11 @@ const INCREASE_TIMEOUT = 1000;
 class Player  {
   
   constructor() {
-    this.money = 100;
+    this.money = 90;
     this.believers = 0;
     this.moneyIncrease = 0;
+    this.lvl = 1;
     this.onIncrease = new Phaser.Signal();
-    this.runIncreaseLoop();
   }
 
   buy(item) {
@@ -18,11 +18,26 @@ class Player  {
     this.money -= item.price;
     this.moneyLabel.setText(`$${this.money}`);
     this.believersLabel.setText(`/${this.believers}`);
+
+    if (item.lvl > this.lvl) {
+      this.lvl = item.lvl;
+    } 
+  }
+
+  deal(offer) {
+    this.believers = this.believers - offer.decrese > 0 ? this.believers - offer.decrese : 0;
+    this.money += offer.reward;
+    this.moneyLabel.setText(`$${this.money}`);
+    this.believersLabel.setText(`/${this.believers}`);
+  }
+
+  decline(offer) {
+    console.log('decline', offer);
   }
 
   runIncreaseLoop() {
     if(this.moneyLabel && this.believersLabel) {
-      this.increaseInterval = setInterval(() => {
+      setInterval(() => {
         this.money += this.believers;
         this.moneyLabel.setText(`$${this.money}`);
         this.onIncrease.dispatch();
@@ -30,10 +45,15 @@ class Player  {
     }
   }
 
+  preach() {
+    this.believers++;
+    this.moneyLabel.setText(`$${this.money}`);
+  }
 
   bindLabels(believersLabel, moneyLabel) {
     this.believersLabel = believersLabel;
     this.moneyLabel = moneyLabel;
+    this.runIncreaseLoop();
   }
 }
 

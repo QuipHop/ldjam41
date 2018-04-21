@@ -35,6 +35,7 @@ export default class ActionsModal {
 		this.drawShop(listView, options.padding);
 		// modalGroup.add(listView);
 
+
 		this.game.world.bringToTop(bg);
 
 		let backTxt = this.game.add.text(this.game.world.width - 10, 5, 'X', STYLES.MAIN); 
@@ -42,7 +43,9 @@ export default class ActionsModal {
 		backTxt.inputEnabled = true;
 		backTxt.events.onInputDown.add(() => {
 			backTxt.destroy();
-			modalGroup.destroy(true);
+      modalGroup.destroy(true);
+      this.game.input.mouse.mouseWheelCallback = null;
+      this.increaseHandler.detach();
 			this.waitForDestroy();
 		});
 	}
@@ -55,11 +58,11 @@ export default class ActionsModal {
 			img.width = this.game.world.width;
       img.itemPrice = item.price;
       const txt = img.addChild(
-				this.game.add.text(10 , img.centerY / 2, `${item.label}\n`, STYLES.ACTIONS)
+				this.game.add.text(10 , img.centerY / 2 + 10, `${item.label}\nprice: $${item.price}`, STYLES.ACTIONS)
 			);
       txt.anchor.setTo(0, 0.5);
       const actionBtn = this.game.add.text(
-				250,
+				270,
 				25,
 				'BUY',
 				STYLES.ACTIONS
@@ -77,8 +80,18 @@ export default class ActionsModal {
       listView.add(img);
       // actionBtn.alignIn(img, Phaser.CENTER_RIGHT);
     });
-    
-    this.player.onIncrease.add(() => {
+
+    let index = 0;
+    this.game.input.mouse.mouseWheelCallback = (evt) => {
+      if(this.game.input.mouse.wheelDelta === Phaser.Mouse.WHEEL_UP) {
+        if (index - 1 >= 0) --index;
+      } else {
+        if (index + 1 <= ACTIONS.length - 4) ++index;
+      }
+      listView.moveToItem(index);
+    };
+
+    this.increaseHandler = this.player.onIncrease.add(() => {
       this.checkDisabledActionButtons(listView);
     });
     this.checkDisabledActionButtons(listView);

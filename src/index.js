@@ -20,7 +20,7 @@ class Game extends Phaser.Game {
 
     // Setup the game's stage.
     super({
-      width:1024,
+      width: 1024,
       height: 758,
       renderer: Phaser.CANVAS,
       antialias: true,
