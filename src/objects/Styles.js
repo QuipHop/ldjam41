@@ -1,4 +1,5 @@
 export const STYLES = {
+  BTN_DISABLED_APLHA: 0.6,
   MAIN : { font: "50px 'stone'", align: "center", fill:'#ff0000' },
   LINE: { font: "50px 'goudy'", align: "center", fill:'#ff0000' },
   ACTIONS: {

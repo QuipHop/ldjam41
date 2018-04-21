@@ -47,7 +47,7 @@ class Player  {
 
   preach() {
     this.believers++;
-    this.moneyLabel.setText(`$${this.money}`);
+    this.believersLabel.setText(`/${this.believers}`);
   }
 
   bindLabels(believersLabel, moneyLabel) {

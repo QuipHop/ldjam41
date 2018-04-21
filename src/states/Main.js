@@ -10,10 +10,13 @@ export default class Main extends Phaser.State {
   create() {
     this.player = Player;
     this.templesCounter = 1;
-    this.templesGroup = this.game.add.group();
-    this.generateTempleIcon();
+    this.templeSprite = null;
     this.initBg();
     this.initUi();
+
+    this.templesGroup = this.game.add.group();
+    this.generateTempleIcon();
+    this.runDealsLoop();
   }
 
   update() {
@@ -50,7 +53,8 @@ export default class Main extends Phaser.State {
 
     this.dealsBtn = this.game.add.image(this.game.world.width - 50, this.game.world.height - 100, 'btn_deals');
     this.dealsBtn.anchor.setTo(1, 0.5);
-    this.dealsBtn.inputEnabled = true;
+    this.dealsBtn.inputEnabled = false;
+    this.dealsBtn.alpha = STYLES.BTN_DISABLED_APLHA;
     this.dealsBtn.events.onInputDown.add(() => this.openDealsDialog());
 
     this.player.bindLabels(this.believersCounter, this.moneyCounter);
@@ -62,15 +66,19 @@ export default class Main extends Phaser.State {
   checkTemples() {
     if (this.player.believers / this.templesCounter > 100) {
       this.generateTempleIcon();
+      this.templesCounter++;
     }
   };
 
   generateTempleIcon() {
-    this.templesGroup.create(
-      this.game.rnd.integerInRange(200, this.game.world.width - 200),
-      this.game.rnd.integerInRange(200,  this.game.world.height - 200),
+    this.templeSprite = this.game.add.image(
+      this.game.rnd.integerInRange(200, this.game.world.width - 300),
+      this.game.rnd.integerInRange(200,  this.game.world.height - 300),
       'temple'
     );
+
+    this.templeSprite.scale.setTo(0.2);
+    this.templesGroup.add(this.templeSprite);
   }
 
   openActionsDialog() {
@@ -78,6 +86,17 @@ export default class Main extends Phaser.State {
   }
 
   openDealsDialog() {
+    this.dealsBtn.inputEnabled = false;
+    this.dealsBtn.alpha = STYLES.BTN_DISABLED_APLHA;
     const dealsDialog = new DealsModal(this.game);
+  }
+
+  runDealsLoop() {
+
+  }
+
+  render() {
+    // Sprite debug info
+    // game.debug.spriteBounds(this.templeSprite, 32, 32);
   }
 }
