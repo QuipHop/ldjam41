@@ -4,6 +4,8 @@ import ActionsModal from '../objects/ActionsModal';
 import DealsModal from '../objects/DealsModal';
 import { STYLES } from '../objects/Styles';
 // import { ListView } from 'phaser-list-view';
+const DEALS_LOOP_INTERVAL = 10000;
+const MIN_BELIEVERS = 100;
 
 export default class Main extends Phaser.State {
 
@@ -92,7 +94,12 @@ export default class Main extends Phaser.State {
   }
 
   runDealsLoop() {
-
+    setInterval(() => {
+      if (this.player.believers > MIN_BELIEVERS) {
+        this.dealsBtn.inputEnabled = true;
+        this.dealsBtn.alpha = 1;
+      }
+    }, DEALS_LOOP_INTERVAL);
   }
 
   render() {

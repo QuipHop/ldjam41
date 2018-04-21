@@ -56,7 +56,7 @@ export default class ActionsModal {
       MARGIN_LEFT,
       300,
       `Effects: money: ${ this.currentDeal.reward > 0 ? '+' + this.currentDeal.reward : this.currentDeal.reward }` + 
-      `, believers: ${ this.currentDeal.decrese < 0 ? this.currentDeal.decrese : '+' + this.currentDeal.decrese }.`,
+      `, believers: -${ this.currentDeal.decrese }.`,
       STYLES.DEAL_DESCRIPTION
     );
 
