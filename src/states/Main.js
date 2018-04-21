@@ -1,50 +1,51 @@
 import throttle from 'lodash.throttle';
 import Player from '../objects/Player';
-import { ListView } from 'phaser-list-view';
+import ActionsModal from '../objects/ActionsModal';
+import { STYLES } from '../objects/Styles';
+// import { ListView } from 'phaser-list-view';
 
-/**
- * Setup and display the main game state.
- */
 export default class Main extends Phaser.State {
-  /**
-   * Setup all objects, etc needed for the main game state.
-   */
+
   create() {
-    // Enable arcade physics.
-    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    // Add background tile.
-    // this.game.add.tileSprite(-5000, -5000, 10000, 10000, 'bg');
-
-    // Add a player to the game.
-    this.player = new Player({
-      game: this.game,
-      x: this.game.world.centerX,
-      y: this.game.world.centerY,
-      key: 'textures',
-      frame: 'ship',
-    });
-
-    // ...
-
-    // Setup listener for window resize.
-    // window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
+    this.player = Player;
+    this.initBg();
+    this.initUi();
   }
 
-  /**
-   * Resize the game to fit the window.
-   */
-  resize() {
-    const width = window.innerWidth * window.devicePixelRatio;
-    const height = window.innerHeight * window.devicePixelRatio;
-
-    this.scale.setGameSize(width, height);
-  }
-
-  /**
-   * Handle actions in the main game loop.
-   */
   update() {
-    
+    // this.believersCounter
+  }
+
+  initBg() {
+    this.bg = this.game.add.image(0, 0, 'earth');
+    this.bg.width = this.game.world.width;
+    this.bg.height = this.game.world.height;
+  }
+
+  initUi() {
+    // this.test = this.game.add.text(0, 0, 'TEST ABCD AASDGKJHG qefefjlfjq', STYLES.MAIN);
+    this.believersGroup = this.game.add.group();
+    this.believersCounter = this.game.add.text(100, 0, `/${this.player.believers}`, STYLES.MAIN);
+    this.believersIcon = this.game.add.image(0, 0, 'prayer');
+    this.believersIcon.scale.setTo(0.3);
+    this.believersGroup.addMultiple([this.believersIcon, this.believersCounter]);
+    this.believersGroup.x = this.game.world.centerX - 200;
+
+    this.moneyCounter = this.game.add.text(this.game.world.centerX + 100, 0, `$${this.player.money}`, STYLES.MAIN);
+
+
+    this.actionBtn = this.game.add.image(50, this.game.world.height - 100, 'btn_actions');
+    this.actionBtn.anchor.setTo(0, 0.5);
+    this.actionBtn.inputEnabled = true;
+    this.actionBtn.events.onInputDown.add(() => this.openActionsDialog());
+    this.player.bindLabels(this.believersCounter, this.moneyCounter);
+  }
+
+  openActionsDialog() {
+    console.log('here');
+    const wasteContainer = new ActionsModal(this.game);
+    // wasteContainer.onDestroy.add(() => {
+    //     wasteContainer.destroy();
+    // })
   }
 }

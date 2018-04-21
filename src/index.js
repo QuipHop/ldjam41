@@ -4,6 +4,7 @@ import Stats from 'stats.js';
 import Boot from './states/Boot';
 import Preload from './states/Preload';
 import Main from './states/Main';
+
 import './assets/css/index.css';
 
 /**

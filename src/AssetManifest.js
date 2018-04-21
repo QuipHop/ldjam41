@@ -4,6 +4,10 @@ const AssetManifest = {
   ],
   images: [
     'bg.png',
+    'earth.png',
+    'prayer.png',
+    'btn_actions.png',
+    'btn_empty_md.png'
   ],
   fonts: {
     google: {
