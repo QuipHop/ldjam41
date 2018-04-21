@@ -1,9 +1,7 @@
 const AssetManifest = {
   sprites: [
-    'textures.png',
   ],
   images: [
-    'bg.png',
     'earth.png',
     'prayer.png',
     'btn_actions.png',
@@ -19,6 +17,9 @@ const AssetManifest = {
       ],
     },
   },
+  sounds: [
+    'ding.mp3'
+  ]
 };
 
 export default AssetManifest;

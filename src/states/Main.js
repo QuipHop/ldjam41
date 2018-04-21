@@ -3,6 +3,7 @@ import Player from '../objects/Player';
 import ActionsModal from '../objects/ActionsModal';
 import DealsModal from '../objects/DealsModal';
 import { STYLES } from '../objects/Styles';
+
 // import { ListView } from 'phaser-list-view';
 const DEALS_LOOP_INTERVAL = 10000;
 const MIN_BELIEVERS = 100;
@@ -13,6 +14,7 @@ export default class Main extends Phaser.State {
     this.player = Player;
     this.templesCounter = 1;
     this.templeSprite = null;
+    this.ding = this.game.add.audio('ding');
     this.initBg();
     this.initUi();
 
@@ -96,6 +98,7 @@ export default class Main extends Phaser.State {
   runDealsLoop() {
     setInterval(() => {
       if (this.player.believers > MIN_BELIEVERS) {
+        this.ding.play();
         this.dealsBtn.inputEnabled = true;
         this.dealsBtn.alpha = 1;
       }
