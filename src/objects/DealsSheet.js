@@ -2,7 +2,7 @@ export const DEALS = [
   {
     id: 0,
     header: 'Not again',
-    body: `One variuos person gone. Burial services needed. Are You in?`,
+    body: `One various person gone. Burial services needed. Are You in?`,
     reward: 5000,
     decrese: 100,
     lvl: 1
@@ -24,6 +24,14 @@ export const DEALS = [
     lvl:1
   },
   {
+    id: 2,
+    header: 'On AIR!',
+    body: `You've beign invited on TV show. A bit of propaganda needed...`,
+    reward: 6000,
+    decrese: 120,
+    lvl:1
+  },
+  {
     id: 3,
     header: 'Knock-knock...',
     body: `Money-laundering required. Rollback 20%. Deal?`,
@@ -34,6 +42,15 @@ export const DEALS = [
   {
     id: 4,
     header: 'Boss, bad news.',
+    body: `New religion in town. Are we going to blackmail those punks?`,
+    reward: -5000,
+    decrese: 200,
+    fine: 500,
+    lvl: 3
+  },
+  {
+    id: 4,
+    header: 'Boss, good news.',
     body: `New religion in town. Are we going to blackmail those punks?`,
     reward: -5000,
     decrese: 200,

@@ -3,7 +3,7 @@ import { ListView } from 'phaser-list-view';
 import { STYLES } from './Styles';
 import { DEALS } from './DealsSheet';
 
-const MARGIN_LEFT = 30;
+const MARGIN_LEFT = 60;
 
 export default class ActionsModal {
 
@@ -29,46 +29,40 @@ export default class ActionsModal {
     };
 
 		let modalGroup = this.game.add.group();
-		let bg = this.game.add.graphics(0, 0);
-		bg.inputEnabled = true;
-		bg.beginFill('#FFF', 0.5);
-		bg.drawRect(0, 50, this.game.world.width, this.game.world.height - 50);
-		// this.cartLabel = this.game.add.text(10, 5, '', STYLES.MAIN); 
-
-		let bounds = new Phaser.Rectangle(0, 110, this.game.world.width, this.game.world.height - 50);
-
 		this.drawDeal();
-		// modalGroup.add(listView);
 
-		this.game.world.bringToTop(bg);
-
-		let backTxt = this.game.add.text(this.game.world.width - 10, 5, 'X', STYLES.MAIN); 
+		let backTxt = this.game.add.text(this.game.world.width - 20, 20, 'X', STYLES.CLOSE_BTN); 
 		backTxt.anchor.setTo(1, 0);
 		backTxt.inputEnabled = true;
 		backTxt.events.onInputDown.add(() => {
 			destroy();
     });
 
-    this.headerText = this.game.add.text(MARGIN_LEFT, 100, this.currentDeal.header, STYLES.DEAL_HEADER);
-    this.descriptionText = this.game.add.text(MARGIN_LEFT, 150, this.currentDeal.body, STYLES.DEAL_DESCRIPTION);
+    const bgImage = this.game.add.image(0, 110, 'placeholder_deals');
+    bgImage.width = this.game.world.width;
+    bgImage.height = this.game.world.height - 100;
+    this.headerText = this.game.add.text(MARGIN_LEFT, 120, this.currentDeal.header, STYLES.DEAL_HEADER);
+    this.descriptionText = this.game.add.text(MARGIN_LEFT, 190, this.currentDeal.body, STYLES.DEAL_DESCRIPTION);
 
     this.effects = this.game.add.text(
       MARGIN_LEFT,
-      300,
-      `Effects: money: ${ this.currentDeal.reward > 0 ? '+' + this.currentDeal.reward : this.currentDeal.reward }` + 
+      340,
+      `Effects: money: ${ this.currentDeal.reward > 0 ? '+' + this.currentDeal.reward : this.currentDeal.reward }$` + 
       `, believers: -${ this.currentDeal.decrese }.`,
       STYLES.DEAL_DESCRIPTION
     );
 
-    this.dealBtn = this.game.add.text(MARGIN_LEFT, 400, 'Deal', STYLES.DEAL_HEADER);
+    this.dealBtn = this.game.add.text(MARGIN_LEFT, 500, 'Deal', STYLES.DEAL_BTN);
     this.dealBtn.inputEnabled = true;
+    this.dealBtn.input.useHandCursor = true;
     this.dealBtn.events.onInputDown.add(() => {
       this.player.deal(this.currentDeal);
       destroy();
     });
 
-    this.cancelBtn = this.game.add.text(200, 400, 'Refuse', STYLES.DEAL_HEADER);
+    this.cancelBtn = this.game.add.text(350, 500, 'Refuse', STYLES.DEAL_BTN);
     this.cancelBtn.inputEnabled = true;
+    this.cancelBtn.input.useHandCursor = true;
     this.cancelBtn.events.onInputDown.add(() => {
       this.player.decline(this.currentDeal);
       destroy();
@@ -77,12 +71,12 @@ export default class ActionsModal {
 
     // this.descriptionText.setTextBounds(0, 150, 724, 568);
     modalGroup.addMultiple([
-      bg,
+      bgImage,
       this.headerText,
       this.descriptionText,
       this.effects,
       this.dealBtn,
-      this.cancelBtn
+      this.cancelBtn,
     ]);
 
 	}

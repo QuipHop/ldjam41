@@ -17,9 +17,9 @@ export default class ActionsModal {
 
 		let modalGroup = this.game.add.group();
 		let bg = this.game.add.graphics(0, 0);
-		bg.inputEnabled = true;
+		// bg.inputEnabled = true;
 		bg.beginFill("#FFF", 0.5);
-		bg.drawRect(0, 50, this.game.world.width, this.game.world.height - 50);
+		bg.drawRect(0, 100, this.game.world.width, this.game.world.height - 50);
 		// this.cartLabel = this.game.add.text(10, 5, '', STYLES.MAIN); 
 
 		modalGroup.addMultiple([bg]);
@@ -28,7 +28,9 @@ export default class ActionsModal {
 		let options = {
 			direction: 'y',
 			overflow: 50,
-			padding: 10
+			padding: 10,
+			searchForClicks: true,
+			autocull: false
 		};
 
 		let listView = new ListView(this.game, modalGroup, bounds, options);
@@ -38,7 +40,7 @@ export default class ActionsModal {
 
 		this.game.world.bringToTop(bg);
 
-		let backTxt = this.game.add.text(this.game.world.width - 10, 5, 'X', STYLES.MAIN); 
+		let backTxt = this.game.add.text(this.game.world.width - 20, 20, 'X', STYLES.CLOSE_BTN); 
 		backTxt.anchor.setTo(1, 0);
 		backTxt.inputEnabled = true;
 		backTxt.events.onInputDown.add(() => {
@@ -71,9 +73,9 @@ export default class ActionsModal {
       // actionBtn.anchor.setTo(1, 0.5);
       // actionBtn.lineSpacing = img.height;
       txt.setTextBounds(0, 0, img.width / 4, img.height);
-			actionBtn.inputEnabled = true;
-			actionBtn.input.priorityID = 9999;
-			actionBtn.events.onInputDown.add(() => {
+			img.inputEnabled = true;
+			img.input.priorityID = 9999;
+			img.events.onInputDown.add(() => {
         this.player.buy(item);
         this.checkDisabledActionButtons(listView);
       });
@@ -88,7 +90,7 @@ export default class ActionsModal {
       } else {
         if (index + 1 <= ACTIONS.length - 4) ++index;
       }
-      listView.moveToItem(index);
+      listView.tweenToItem(index, 1);
     };
 
     this.increaseHandler = this.player.onIncrease.add(() => {
@@ -100,11 +102,13 @@ export default class ActionsModal {
 	checkDisabledActionButtons(listView) {
 		listView.items.forEach((block) => {
 			if (this.player.money < block.itemPrice) {
-				block.children[1].inputEnabled = false;
-				block.children[1].alpha = 0.5;
+				block.inputEnabled = false;
+				block.input.useHandCursor = true;
+				block.alpha = 0.85;
 			} else {
-        block.children[1].alpha = 1;
-				block.children[1].inputEnabled = true;
+				block.alpha = 1;
+				block.input.useHandCursor = false;
+				block.inputEnabled = true;
 			}
 		});
 	}

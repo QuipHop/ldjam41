@@ -2,13 +2,17 @@ const AssetManifest = {
   sprites: [
   ],
   images: [
-    'earth.png',
     'prayer.png',
     'btn_actions.png',
     'btn_empty_md.png',
     'btn_deals.png',
     'btn_preach.png',
-    'temple.png'
+    'temple.png',
+    'logo.png',
+    'btn_placeholder.png',
+    'enemy_temple.png',
+    'placeholder_deals.png',
+    'tile.png'
   ],
   fonts: {
     google: {

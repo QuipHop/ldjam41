@@ -10,6 +10,10 @@ export default class Preload extends Phaser.State {
    */
   preload() {
     this.game.load.audio('ding', 'assets/ding.mp3');
+    this.game.load.audio('evil_laugh', 'assets/evil_laugh.mp3');
+    this.game.load.audio('preach', 'assets/preach.mp3');
+    this.game.load.spritesheet('earth', 'assets/earth.png', 256, 192, 2);
+    this.game.load.spritesheet('fire', 'assets/fire.png', 64, 128);
   }
 
   create() {
@@ -24,7 +28,7 @@ export default class Preload extends Phaser.State {
     this.game.plugins.add(WebpackLoader, AssetManifest, '')
       .load()
       .then(() => {
-        this.game.state.start('Main');
+        this.game.state.start('Menu');
       });
   }
 

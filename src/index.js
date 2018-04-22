@@ -4,6 +4,7 @@ import Stats from 'stats.js';
 import Boot from './states/Boot';
 import Preload from './states/Preload';
 import Main from './states/Main';
+import Menu from './states/Menu';
 
 import './assets/css/index.css';
 
@@ -23,7 +24,7 @@ class Game extends Phaser.Game {
       width: 1024,
       height: 758,
       renderer: Phaser.CANVAS,
-      antialias: true,
+      antialias: false,
       multiTexture: true,
       enableDebug: process.env.NODE_ENV === 'development',
     });
@@ -32,6 +33,7 @@ class Game extends Phaser.Game {
     this.state.add('Boot', Boot, false);
     this.state.add('Preload', Preload, false);
     this.state.add('Main', Main, false);
+    this.state.add('Menu', Menu, false);
 
     // Kick things off with the boot state.
     this.state.start('Boot');

@@ -31,7 +31,7 @@ export const ACTIONS = [
   },
   {
     label: `Buy social network`,
-    price: 100,
+    price: 400000,
     increase: 50000,
     lvl: 2
   },
@@ -43,7 +43,7 @@ export const ACTIONS = [
   },
   {
     label: `Found own town`,
-    price: 100,
+    price: 90000,
     increase: 100000,
     lvl: 3
   },
