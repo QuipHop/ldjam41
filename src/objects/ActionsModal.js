@@ -11,6 +11,7 @@ export default class ActionsModal {
 		this.player = Player;
 		this.openModal();
 		this.onDestroy = new Phaser.Signal();
+		this.cashSound = this.game.add.audio('cash');
 	}
 
 	openModal(type) {
@@ -20,7 +21,6 @@ export default class ActionsModal {
 		// bg.inputEnabled = true;
 		bg.beginFill("#FFF", 0.5);
 		bg.drawRect(0, 100, this.game.world.width, this.game.world.height - 50);
-		// this.cartLabel = this.game.add.text(10, 5, '', STYLES.MAIN); 
 
 		modalGroup.addMultiple([bg]);
 
@@ -36,7 +36,6 @@ export default class ActionsModal {
 		let listView = new ListView(this.game, modalGroup, bounds, options);
 		this.drawShop(listView, options.padding);
 		// modalGroup.add(listView);
-
 
 		this.game.world.bringToTop(bg);
 
@@ -76,7 +75,8 @@ export default class ActionsModal {
 			img.inputEnabled = true;
 			img.input.priorityID = 9999;
 			img.events.onInputDown.add(() => {
-        this.player.buy(item);
+				this.player.buy(item);
+				if (!this.cashSound.isPlaying) this.cashSound.play();
         this.checkDisabledActionButtons(listView);
       });
       listView.add(img);
@@ -107,8 +107,8 @@ export default class ActionsModal {
 				block.alpha = 0.85;
 			} else {
 				block.alpha = 1;
-				block.input.useHandCursor = false;
 				block.inputEnabled = true;
+				block.input.useHandCursor = false;
 			}
 		});
 	}

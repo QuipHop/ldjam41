@@ -55,6 +55,13 @@ class Player  {
     this.moneyLabel = moneyLabel;
     this.runIncreaseLoop();
   }
+
+  fine(temples) {
+    if (this.believers - temples > 0){
+      this.believers--
+      this.believersLabel.setText(`/${this.believers}`);
+    }
+  }
 }
 
 export default new Player(window.game);

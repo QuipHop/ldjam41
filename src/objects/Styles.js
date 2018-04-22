@@ -5,6 +5,9 @@ export const STYLES = {
   HEADER: {
     font: "50px 'goudy'", align: "center", fill:'#981b1b', 
   },
+  DOMITANION_HEADER: {
+    font: "30px 'goudy'", align: "center", fill:'#981b1b', 
+  },
   ACTIONS: {
     font: "22px 'goudy'",
     align: "center",

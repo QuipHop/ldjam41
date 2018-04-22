@@ -12,7 +12,8 @@ const AssetManifest = {
     'btn_placeholder.png',
     'enemy_temple.png',
     'placeholder_deals.png',
-    'tile.png'
+    'tile.png',
+    'sun.png'
   ],
   fonts: {
     google: {

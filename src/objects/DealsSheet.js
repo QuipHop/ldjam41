@@ -26,7 +26,7 @@ export const DEALS = [
   {
     id: 2,
     header: 'On AIR!',
-    body: `You've beign invited on TV show. A bit of propaganda needed...`,
+    body: `You've being invited on TV show. A bit of propaganda needed...`,
     reward: 6000,
     decrese: 120,
     lvl:1
@@ -40,6 +40,14 @@ export const DEALS = [
     lvl: 2
   },
   {
+    id: 3,
+    header: 'Knock-knock...',
+    body: `War is coming. Your bless needed.`,
+    reward: 12000,
+    decrese: 300,
+    lvl: 2
+  },
+  {
     id: 4,
     header: 'Boss, bad news.',
     body: `New religion in town. Are we going to blackmail those punks?`,
@@ -49,12 +57,11 @@ export const DEALS = [
     lvl: 3
   },
   {
-    id: 4,
-    header: 'Boss, good news.',
-    body: `New religion in town. Are we going to blackmail those punks?`,
-    reward: -5000,
+    id: 5,
+    header: 'Easy job.',
+    body: `We need your help in opium smuggling.?`,
+    reward: 25000,
     decrese: 200,
-    fine: 500,
     lvl: 3
   },
 ];

@@ -5,9 +5,12 @@ import DealsModal from '../objects/DealsModal';
 import { STYLES } from '../objects/Styles';
 
 // import { ListView } from 'phaser-list-view';
-const DEALS_LOOP_INTERVAL = 10000;
+const DEALS_LOOP_INTERVAL_MIN = 8000;
+const DEALS_LOOP_INTERVAL_MAX = 12000;
 const TEMPLE_ENEMY_LOOP_INTERVAL = 5000;
+const FINE_LOOP_INTEVAL = 1000;
 const MIN_BELIEVERS = 100;
+const  DESTROY_TEMPLE_TIMEOUT = 2000;
 
 export default class Main extends Phaser.State {
 
@@ -19,6 +22,8 @@ export default class Main extends Phaser.State {
     this.ding = this.game.add.audio('ding');
     this.evilLaugh = this.game.add.audio('evil_laugh');
     this.preachSound = this.game.add.audio('preach');
+    this.popSound = this.game.add.audio('pop');
+    this.crashSound = this.game.add.audio('crash');
     this.initBg();
     this.initUi();
     this.stage.backgroundColor = '#2d2d36';
@@ -26,13 +31,18 @@ export default class Main extends Phaser.State {
     this.generateTempleIcon();
     this.runDealsLoop();
     this.generetaEnemyTemple();
-  }
-
-  update() {
-    // this.believersCounter
+    this.runFineLoop();
   }
 
   initBg() {
+
+    this.sun = this.game.add.image(this.game.world.centerX, this.game.world.centerY, 'sun');
+    this.sun.anchor.setTo(0.5);
+    this.sun.scale.setTo(5);
+    this.sun.pivot.x = 50;
+    this.sun.pivot.y = 100;
+    this.sun.alpha = 0.9;
+
     this.bg = this.game.add.sprite(0, 0, 'earth');
     this.bg.width = this.game.world.width;
     this.bg.height = this.game.world.height;
@@ -40,6 +50,12 @@ export default class Main extends Phaser.State {
     //  Because we didn't give any other parameters it's going to make an animation from all available frames in the 'mummy' sprite sheet
     this.bg.animation = this.bg.animations.add('flow');
     this.bg.animations.play('flow', 1, true);
+
+
+  }
+
+  update() {
+    this.sun.rotation -= 0.002;
   }
 
   initUi() {
@@ -58,8 +74,12 @@ export default class Main extends Phaser.State {
     this.believersIcon = this.game.add.image(0, 0, 'prayer');
     this.believersIcon.scale.setTo(0.3);
     this.believersGroup.addMultiple([this.believersIcon, this.believersCounter]);
-    this.believersGroup.x = this.game.world.centerX - 200;
+    this.believersGroup.x = 10;
 
+    this.dominationCounter = this.game.add.text(180, 30 ,
+      `Domination: 100%`,
+      STYLES.DOMITANION_HEADER
+    );
     this.moneyCounter = this.game.add.text(this.game.world.centerX + 100, 20, `$${this.player.money}`, STYLES.HEADER);
 
 
@@ -104,6 +124,7 @@ export default class Main extends Phaser.State {
     if (this.player.believers / this.templesCounter > 100) {
       this.generateTempleIcon();
       this.templesCounter++;
+      this.updateDominationCounter();
     }
   };
 
@@ -137,7 +158,7 @@ export default class Main extends Phaser.State {
         
         this.dealsBtn.alpha = 1;
       }
-    }, DEALS_LOOP_INTERVAL);
+    }, this.game.rnd.integerInRange(DEALS_LOOP_INTERVAL_MIN, DEALS_LOOP_INTERVAL_MAX));
   }
 
   generetaEnemyTemple() {
@@ -154,6 +175,8 @@ export default class Main extends Phaser.State {
         enemyTempleSprite.inputEnabled = true;
         enemyTempleSprite.input.useHandCursor = true;
         enemyTempleSprite.events.onInputDown.add(() => {
+          enemyTempleSprite.inputEnabled = false;
+          this.crashSound.play();
           if (!this.evilLaugh.isPlaying) {
             this.evilLaugh.play();
           }
@@ -164,13 +187,31 @@ export default class Main extends Phaser.State {
           setTimeout(() => {
             enemyTempleSprite.destroy();
             this.enemyTemplesCounter--;
-          }, 2000);
+            this.updateDominationCounter();
+          }, DESTROY_TEMPLE_TIMEOUT);
         });
         this.templesGroup.add(enemyTempleSprite);
         this.enemyTemplesCounter++;
+        this.popSound.play();
+        this.updateDominationCounter();
+
       }
     }, TEMPLE_ENEMY_LOOP_INTERVAL);
 
+  }
+
+  updateDominationCounter() {
+    const percent = Math.floor(100 / (this.enemyTemplesCounter + this.templesCounter) * this.templesCounter);
+    this.dominationCounter.setText(
+      `Domination: ${percent}%`
+    );
+  }
+
+  runFineLoop() {
+    setInterval(() => {
+      this.player.fine(this.enemyTemplesCounter);
+      this.updateDominationCounter();
+    }, FINE_LOOP_INTEVAL);
   }
 
   render() {

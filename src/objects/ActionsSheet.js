@@ -20,37 +20,37 @@ export const ACTIONS = [
   {
     label: `Buy radioshow`,
     price: 50000,
-    increase: 250,
+    increase: 100,
     lvl: 2
   },
   {
     label: `Buy TV channel`,
     price: 250000,
-    increase: 300,
+    increase: 400,
     lvl: 2
   },
   {
     label: `Buy social network`,
     price: 400000,
-    increase: 50000,
+    increase: 800,
     lvl: 2
   },
   {
     label: `Found militia squad`,
     price: 70000,
-    increase: 5,
+    increase: 1000,
     lvl: 3
   },
   {
     label: `Found own town`,
     price: 90000,
-    increase: 100000,
+    increase: 2000,
     lvl: 3
   },
   {
     label: `Found the nation`,
     price: 1000000,
-    increase: 5,
+    increase: 4000,
     lvl: 3
   },
 ];
