@@ -76,7 +76,7 @@ export default class Main extends Phaser.State {
     this.believersGroup.addMultiple([this.believersIcon, this.believersCounter]);
     this.believersGroup.x = 10;
 
-    this.dominationCounter = this.game.add.text(180, 30 ,
+    this.dominationCounter = this.game.add.text(200, 30 ,
       `Domination: 100%`,
       STYLES.DOMITANION_HEADER
     );
